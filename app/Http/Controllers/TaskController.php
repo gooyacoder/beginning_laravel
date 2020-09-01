@@ -2,10 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Task;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
+    
+    /**
+   * Create a new controller instance.
+   *
+   * @return void
+   */
+  public function __construct()
+  {
+      $this->middleware('auth')->except('index', 'show');
+  }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +25,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return "TaskController index method.";
+        //
+        $tasks = Task::get();
+        return view('tasks.index', compact('tasks'));
     }
 
     /**
@@ -23,7 +37,14 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return "TaskController create method.";
+        //
+        if(Auth::user()->is_admin == 1){
+            return view('tasks.create');
+        }
+        else {
+          return redirect('home');
+        }
+        
     }
 
     /**
@@ -35,6 +56,19 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         //
+        if(Auth::user()->is_admin == 1){
+            
+            $post = new Task;
+  $post->title = $request->input('title');
+  $post->body = $request->input('body');  
+  $post->save();
+  
+  if($post){
+             return redirect('tasks');
+         }
+            
+        }
+        
     }
 
     /**
@@ -45,7 +79,9 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        return "TaskController show method.";
+        //
+        $task = Task::findOrFail($id);        
+        return view('tasks.show', compact('task'));
     }
 
     /**
@@ -56,7 +92,15 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        return "TaskController edit method.";
+        //
+         if(Auth::user()->is_admin == 1){
+        $task = Task::findOrFail($id);
+        return view('tasks.edit', compact('task'));
+      }
+      else {
+        // code...
+        return redirect('home');
+      }
     }
 
     /**
@@ -69,6 +113,19 @@ class TaskController extends Controller
     public function update(Request $request, $id)
     {
         //
+        if(Auth::user()->is_admin == 1){
+            
+            $post = Task::findOrFail($id);
+  $post->title = $request->input('title');
+  $post->body = $request->input('body');  
+  $post->save();
+  
+  if($post){
+             return redirect('tasks');
+         }
+            
+        }
+        
     }
 
     /**
@@ -79,6 +136,89 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        return "TaskController destroy method.";
+        //
     }
 }
+
+
+
+
+
+// class TaskController extends Controller
+// {
+//     /**
+//      * Display a listing of the resource.
+//      *
+//      * @return \Illuminate\Http\Response
+//      */
+//     public function index()
+//     {
+//         return "TaskController index method.";
+//     }
+
+//     /**
+//      * Show the form for creating a new resource.
+//      *
+//      * @return \Illuminate\Http\Response
+//      */
+//     public function create()
+//     {
+//         return "TaskController create method.";
+//     }
+
+//     /**
+//      * Store a newly created resource in storage.
+//      *
+//      * @param  \Illuminate\Http\Request  $request
+//      * @return \Illuminate\Http\Response
+//      */
+//     public function store(Request $request)
+//     {
+//         //
+//     }
+
+//     /**
+//      * Display the specified resource.
+//      *
+//      * @param  int  $id
+//      * @return \Illuminate\Http\Response
+//      */
+//     public function show($id)
+//     {
+//         return "TaskController show method.";
+//     }
+
+//     /**
+//      * Show the form for editing the specified resource.
+//      *
+//      * @param  int  $id
+//      * @return \Illuminate\Http\Response
+//      */
+//     public function edit($id)
+//     {
+//         return "TaskController edit method.";
+//     }
+
+//     /**
+//      * Update the specified resource in storage.
+//      *
+//      * @param  \Illuminate\Http\Request  $request
+//      * @param  int  $id
+//      * @return \Illuminate\Http\Response
+//      */
+//     public function update(Request $request, $id)
+//     {
+//         //
+//     }
+
+//     /**
+//      * Remove the specified resource from storage.
+//      *
+//      * @param  int  $id
+//      * @return \Illuminate\Http\Response
+//      */
+//     public function destroy($id)
+//     {
+//         return "TaskController destroy method.";
+//     }
+// }
