@@ -14,10 +14,10 @@ class TaskController extends Controller
    *
    * @return void
    */
-  public function __construct()
+/*  public function __construct()
   {
       $this->middleware('auth')->except('index', 'show');
-  }
+  }*/
     /**
      * Display a listing of the resource.
      *
@@ -38,7 +38,7 @@ class TaskController extends Controller
     public function create()
     {
         //
-        if(Auth::user()->is_admin == 1){
+        if(True){
             return view('tasks.create');
         }
         else {
@@ -56,18 +56,18 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         //
-        if(Auth::user()->is_admin == 1){
+        if(True){
             
             $post = new Task;
-  $post->title = $request->input('title');
-  $post->body = $request->input('body');  
-  $post->save();
-  
-  if($post){
-             return redirect('tasks');
-         }
-            
-        }
+            $post->title = $request->input('title');
+            $post->body = $request->input('body');  
+            $post->save();
+
+            if($post){
+                     return redirect('tasks');
+                 }
+                    
+            }
         
     }
 
@@ -93,7 +93,7 @@ class TaskController extends Controller
     public function edit($id)
     {
         //
-         if(Auth::user()->is_admin == 1){
+         if(True){
         $task = Task::findOrFail($id);
         return view('tasks.edit', compact('task'));
       }
@@ -113,18 +113,18 @@ class TaskController extends Controller
     public function update(Request $request, $id)
     {
         //
-        if(Auth::user()->is_admin == 1){
+        if(True){
             
             $post = Task::findOrFail($id);
-  $post->title = $request->input('title');
-  $post->body = $request->input('body');  
-  $post->save();
+            $post->title = $request->input('title');
+            $post->body = $request->input('body');  
+            $post->save();
   
-  if($post){
-             return redirect('tasks');
-         }
-            
-        }
+            if($post){
+                     return redirect('tasks');
+                 }
+                    
+            }
         
     }
 
