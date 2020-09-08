@@ -93,7 +93,7 @@ class TaskController extends Controller
     public function edit($id)
     {
         //
-         if(True){
+        if(True){
         $task = Task::findOrFail($id);
         return view('tasks.edit', compact('task'));
       }
