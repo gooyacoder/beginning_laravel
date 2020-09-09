@@ -43,11 +43,23 @@ class User extends Authenticatable
 
     }
 
-    public function role() {
-        return $this->belongsTo('App\Role');
+
+    public function article() {
+
+        return $this->hasOne('App\Article');
+
     }
 
-    public function roles() {
-        return $this->belongsToMany('App\Role');
+    public function articles() {
+
+        return $this->hasMany('App\Article');
+        
     }
+    // public function role() {
+    //     return $this->belongsTo('App\Role');
+    // }
+
+    // public function roles() {
+    //     return $this->belongsToMany('App\Role');
+    // }
 }
