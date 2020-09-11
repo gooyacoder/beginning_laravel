@@ -4,9 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use Illuminate\Http\Request;
+use App\User;
+use App\Tag;
 
 class ArticleController extends Controller
 {
+
+    public function main()
+    {
+        $articles = Article::where('user_id', 1)->orderBy('title', 'desc')->take(4)->get();
+        $tags = Tag::all();
+        return view('welcome', ['articles' => $articles, 'tags' => $tags]);
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +25,10 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        //
+        $articles = Article::orderBy('created_at','desc')->paginate(4);
+        $users = User::all();
+        $tags = Tag::all();
+        return view('articles.index', compact('articles', 'users', 'tags'));
     }
 
     /**
