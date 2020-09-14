@@ -14,10 +14,10 @@ class TaskController extends Controller
    *
    * @return void
    */
-/*  public function __construct()
-  {
+    public function __construct()
+    {
       $this->middleware('auth')->except('index', 'show');
-  }*/
+    }
     /**
      * Display a listing of the resource.
      *
@@ -38,7 +38,7 @@ class TaskController extends Controller
     public function create()
     {
         //
-        if(True){
+        if(Auth::user()->is_admin == 1){
             return view('tasks.create');
         }
         else {
@@ -56,7 +56,7 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         //
-        if(True){
+        if(Auth::user()->is_admin == 1){
             
             $post = new Task;
             $post->title = $request->input('title');
@@ -93,7 +93,7 @@ class TaskController extends Controller
     public function edit($id)
     {
         //
-        if(True){
+        if(Auth::user()->is_admin == 1){
         $task = Task::findOrFail($id);
         return view('tasks.edit', compact('task'));
       }
@@ -113,7 +113,7 @@ class TaskController extends Controller
     public function update(Request $request, $id)
     {
         //
-        if(True){
+        if(Auth::user()->is_admin == 1){
             
             $post = Task::findOrFail($id);
             $post->title = $request->input('title');

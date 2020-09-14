@@ -23,3 +23,6 @@ Route::resource('articles', 'ArticleController');
 Route::resource('comments', 'CommentController');
 Route::get('/users/{id}/articles', 'ArticleController@articles');
 Route::get('/', 'ArticleController@main');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
